@@ -1,1 +1,16 @@
+# OpenTofu
+opentofu/.terraform/
+opentofu/*.tfstate
+opentofu/*.tfstate.*
+opentofu/.terraform.lock.hcl
+opentofu/certs/
+
+# Secrets
 k3s/*-secret.yaml
+!k3s/*-secret.yaml.template
+
+# Editor
+*.swp
+*~
+.vscode/
+.idea/
