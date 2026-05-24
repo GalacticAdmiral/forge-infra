@@ -10,17 +10,29 @@ IaC homelab mirroring a production k3s stack.
 ### OpenTofu
 | Component | Description |
 | --- | --- |
-| Nginx | A reverse proxy into other infrastructure, main function to direct to a healty k3s node |
+| Nginx | A reverse proxy into other infrastructure, main function to direct to a healthy k3s node |
 | K3d cluster | In this scenario provisions docker-containers to simulate a production environment | 
 | Azurite | Simulate Azure Storage endpoints |
 
 ### K3s
 | Component | Description |
 | --- | --- |
-| Vendor | Vendored 3rd-party manifests (cert-manager, CloudNativePG). Pinned versions tested before production rollout |
-| certificates.yaml | deploy CA and certs needed in applications like mTLS for RabbitMQ |
-| postfix.yaml | setup of mail service for tomcat application |
+| vendor | Vendored 3rd-party manifests (cert-manager, CloudNativePG). Pinned versions tested before production rollout |
+| certificates.yaml | Deploy CA and certs needed in applications like mTLS for RabbitMQ |
+| postfix.yaml | Setup of mail service for tomcat application |
 | postgresql.yaml | Database configuration |
-| rabbitmq.yaml | message queue mainly for tomcat application |
-| tomcat.yaml | tomcat application with custom war that can not be shared |
-| valkey.yaml | caching for tomcat appliaction |
+| rabbitmq.yaml | Message queue mainly for tomcat application |
+| tomcat.yaml | Tomcat application with custom war that can not be shared |
+| valkey.yaml | Caching for tomcat application |
+
+### Ansible
+| Component | Description |
+| --- | --- |
+| bootstrap.yaml | Initial setup to deploy ansible user with SSH with passwordless sudo |
+| playbook.yaml | Main playbook |
+| roles/common | Standard setup on all servers |
+| roles/ubuntu | Remove snapd and prevent reinstall |
+| roles/users | Create admins and users from SSH public keys |
+| roles/preferences | Optional per-user shell and other dotfile configs |
+| roles/qemu_agent | QEMU guest agent for proxmox VMs |
+| keys/ | SSH pub keys - admins/ ansible/ users/ not to be published public |

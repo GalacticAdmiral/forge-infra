@@ -1,3 +1,12 @@
+# Ansible
+ansible/keys/admins/*
+ansible/keys/users/*
+ansible/keys/ansible/*
+
+!ansible/keys/admins/.gitkeep
+!ansible/keys/users/.gitkeep
+!ansible/keys/ansible/.gitkeep
+
 # OpenTofu
 opentofu/.terraform/
 opentofu/*.tfstate
