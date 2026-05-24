@@ -1,1 +1,2 @@
 ansible/roles/preferences/files/* linguist-vendored
+k3s/vendor/** linguist-vendored
