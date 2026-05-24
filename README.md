@@ -1,7 +1,8 @@
 # Forge Infra
-> [!IMPORTANT]
-> README.md and the repo itself is under construction.
-> Its based on stack im running currently.
+> [!NOTE]
+> Hi there! This project mirrors the production stack i manage at work.
+> I have rebuilt it as a local lab environment for development and learning.
+> No proprietary components are included as for example custom tomcat image with .war.
 
 IaC homelab mirroring a production k3s stack.
 
@@ -10,7 +11,7 @@ IaC homelab mirroring a production k3s stack.
 ### OpenTofu
 | Component | Description |
 | --- | --- |
-| Nginx | A reverse proxy into other infrastructure, main function to direct to a healthy k3s node |
+| Nginx | A reverse proxy into other infrmanageastructure, main function to direct to a healthy k3s node |
 | K3d cluster | In this scenario provisions docker-containers to simulate a production environment | 
 | Azurite | Simulate Azure Storage endpoints |
 
