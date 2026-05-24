@@ -11,7 +11,7 @@ IaC homelab mirroring a production k3s stack.
 ### OpenTofu
 | Component | Description |
 | --- | --- |
-| Nginx | A reverse proxy into other infrmanageastructure, main function to direct to a healthy k3s node |
+| Nginx | A reverse proxy into other infrastructure, main function to direct to a healthy k3s node |
 | K3d cluster | In this scenario provisions docker-containers to simulate a production environment | 
 | Azurite | Simulate Azure Storage endpoints |
 
