@@ -1,0 +1,35 @@
+---
+- name: Bootstrap ansible automation user
+  hosts: all
+  become: true
+  gather_facts: true
+  tasks:
+    - name: Create ansible automation user
+      ansible.builtin.user:
+        name: ansible
+        shell: /bin/bash
+        create_home: true
+        state: present
+
+    - name: Ensure .ssh directory exists for ansible user
+      ansible.builtin.file:
+        path: /home/ansible/.ssh
+        state: directory
+        owner: ansible
+        group: ansible
+        mode: '0700'
+
+    - name: Deploy authorized_keys for ansible user
+      ansible.posix.authorized_key:
+        user: ansible
+        key: "{% for f in query('fileglob', 'keys/ansible/*.pub') | sort %}{{ lookup('file', f) }}{{ '\n' }}{% endfor %}"
+        exclusive: true
+
+    - name: Grant passwordless sudo to ansible user
+      ansible.builtin.copy:
+        dest: /etc/sudoers.d/ansible
+        content: "ansible ALL=(ALL) NOPASSWD:ALL\n"
+        owner: root
+        group: root
+        mode: '0440'
+        validate: 'visudo -cf %s'

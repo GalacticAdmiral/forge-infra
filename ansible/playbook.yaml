@@ -1,0 +1,14 @@
+---
+- hosts: all
+  become: true
+  gather_facts: true
+  roles:
+    - users
+    - common
+    - preferences
+
+- hosts: ubuntu
+  become: true
+  gather_facts: true
+  roles:
+    - ubuntu

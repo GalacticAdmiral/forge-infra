@@ -1,0 +1,39 @@
+alias h     history 25
+alias j     jobs -l
+alias la    ls -a
+alias lf    ls -FA
+alias ll    ls -lA
+alias ls    ls -G
+
+if ($?prompt) then
+    set prompt = "[%{\033[32m%}%n@%B%m%b %~]$ " #green
+    #set prompt = "[%{\033[33m%}%n@%B%m%b %~]$ " #yellow
+    set filec
+    set history = 1000
+    set savehist = 1000
+    if ( $?tcsh ) then
+        bindkey "^W" backward-delete-word
+        bindkey -k up history-search-backward
+        bindkey -k down history-search-forward
+    endif
+endif
+
+complete cc     'n/*/f:*.[coa]/'
+complete gcc    'n/*/f:*.[coa]/'
+complete finger 'n/*/u/'
+complete man    'n/*/c/'
+complete which  'n/*/c/'
+complete unsetenv 'n/*/e/'
+complete printenv 'n/*/e/'
+set autolist = ambiguous
+
+limit coredumpsize 0
+
+if ($term == "xterm" || $term == "vt100" || $term == "vt102" || $term !~ "con*") then
+        bindkey "\e[1~" beginning-of-line  # Home
+        bindkey "\e[7~" beginning-of-line  # Home rxvt
+        bindkey "\e[2~" overwrite-mode     # Ins
+        bindkey "\e[3~" delete-char        # Delete
+        bindkey "\e[4~" end-of-line        # End
+        bindkey "\e[8~" end-of-line        # End rxvt
+endif

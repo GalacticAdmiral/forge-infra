@@ -1,0 +1,75 @@
+---
+# Common packages
+- name: Refresh apt cache
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 3600
+  when: ansible_facts['os_family'] == 'Debian'
+
+- name: Enable EPEL on RHEL-family
+  ansible.builtin.package:
+    name: epel-release
+    state: present
+  when: ansible_facts['os_family'] == 'RedHat'
+
+- name: Install common baseline packages
+  ansible.builtin.package:
+    name:
+      - vim
+      - curl
+      - ca-certificates
+      - git
+      - unzip
+      - zip
+      - tcsh
+    state: present
+
+- name: Set system timezone
+  community.general.timezone:
+    name: Europe/Oslo
+
+- name: Refresh apt cache
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 3600
+    lock_timeout: 300 
+  when: ansible_facts['os_family'] == 'Debian'
+
+- name: Ensure locale package is available (Debian family)
+  ansible.builtin.apt:
+    name: locales
+    state: present
+    lock_timeout: 300
+  when: ansible_facts['os_family'] == 'Debian'
+
+- name: Generate nb_NO.UTF-8 locale (Debian family)
+  community.general.locale_gen:
+    name: nb_NO.UTF-8
+    state: present
+  when: ansible_facts['os_family'] == 'Debian'
+
+- name: Set system-wide locale
+  ansible.builtin.copy:
+    dest: /etc/default/locale
+    content: |
+      LANG=en_US.UTF-8
+      LC_TIME=nb_NO.UTF-8
+      LC_MONETARY=nb_NO.UTF-8
+      LC_NUMERIC=nb_NO.UTF-8
+    owner: root
+    group: root
+    mode: '0644'
+    
+# Hardening
+- name: Harden sshd
+  ansible.builtin.copy:
+    dest: /etc/ssh/sshd_config.d/01-hardening.conf
+    content: |
+      PasswordAuthentication no
+      PermitRootLogin no
+      KbdInteractiveAuthentication no
+    owner: root
+    group: root
+    mode: '0644'
+    validate: 'sshd -t -f %s'
+  notify: Restart sshd

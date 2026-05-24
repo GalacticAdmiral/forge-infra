@@ -1,0 +1,41 @@
+---
+- name: Grant passwordless sudo to admin group
+  ansible.builtin.copy:
+    dest: /etc/sudoers.d/admins
+    content: "%{{ admin_group }} ALL=(ALL) NOPASSWD:ALL\n"
+    owner: root
+    group: root
+    mode: '0440'
+    validate: 'visudo -cf %s'
+
+- name: Create admin user accounts
+  ansible.builtin.user:
+    name: "{{ item | basename | splitext | first }}"
+    shell: /bin/bash
+    groups: "{{ admin_group }}"
+    append: true
+    create_home: true
+    state: present
+  loop: "{{ query('fileglob', 'keys/admins/*.pub') }}"
+
+- name: Deploy authorized_keys for admin users
+  ansible.posix.authorized_key:
+    user: "{{ item | basename | splitext | first }}"
+    key: "{{ lookup('file', item) }}"
+    exclusive: true
+  loop: "{{ query('fileglob', 'keys/admins/*.pub') }}"
+
+- name: Create regular user accounts
+  ansible.builtin.user:
+    name: "{{ item | basename | splitext | first }}"
+    shell: /bin/bash
+    create_home: true
+    state: present
+  loop: "{{ query('fileglob', 'keys/users/*.pub') }}"
+
+- name: Deploy authorized_keys for regular users
+  ansible.posix.authorized_key:
+    user: "{{ item | basename | splitext | first }}"
+    key: "{{ lookup('file', item) }}"
+    exclusive: true
+  loop: "{{ query('fileglob', 'keys/users/*.pub') }}"

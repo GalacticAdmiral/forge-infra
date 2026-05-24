@@ -1,0 +1,28 @@
+---
+- name: Purge snapd
+  ansible.builtin.apt:
+    name: snapd
+    state: absent
+    purge: true
+    autoremove: true
+
+- name: Remove snap directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /snap
+    - /var/snap
+    - /var/lib/snapd
+    - /root/snap
+
+- name: Prevent snapd from being reinstalled
+  ansible.builtin.copy:
+    dest: /etc/apt/preferences.d/no-snap
+    content: |
+      Package: snapd
+      Pin: release a=*
+      Pin-Priority: -10
+    owner: root
+    group: root
+    mode: '0644'

@@ -1,0 +1,17 @@
+---
+- name: Set login shell
+  ansible.builtin.user:
+    name: "{{ item.key }}"
+    shell: "{{ item.value.shell }}"
+  loop: "{{ user_preferences | default({}) | dict2items }}"
+  when: item.value.shell is defined
+
+- name: Deploy starter dotfiles
+  ansible.builtin.copy:
+    src: "{{ item.1 }}"
+    dest: "/home/{{ item.0.key }}/.{{ item.1 }}"
+    owner: "{{ item.0.key }}"
+    group: "{{ item.0.key }}"
+    mode: '0644'
+    force: false
+  loop: "{{ user_preferences | default({}) | dict2items | subelements('value.dotfiles', {'skip_missing': True}) }}"
