@@ -21,7 +21,8 @@ IaC homelab mirroring a production k3s stack.
 | vendor | Vendored 3rd-party manifests (cert-manager, CloudNativePG). Pinned versions tested before production rollout |
 | certificates.yaml | Deploy CA and certs needed in applications like mTLS for RabbitMQ |
 | postfix.yaml | Setup of mail service for tomcat application |
-| postgresql.yaml | Database configuration |
+| postgresql.yaml | Database configuration with recovery from Azure blob|
+| postgresql-bootstrap.yaml | Database configuration for a new setup |
 | rabbitmq.yaml | Message queue mainly for tomcat application |
 | tomcat.yaml | Tomcat application with custom war that can not be shared |
 | valkey.yaml | Caching for tomcat application |
