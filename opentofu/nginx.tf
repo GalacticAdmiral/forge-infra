@@ -10,6 +10,7 @@ resource "docker_network" "k3s" {
 resource "docker_container" "nginx" {
   name  = "forge-nginx"
   image = docker_image.nginx.image_id
+  depends_on = [terraform_data.k3d_cluster]
 
   networks_advanced {
     name = docker_network.k3s.name

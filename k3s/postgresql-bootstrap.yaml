@@ -9,22 +9,9 @@ spec:
   postgresql:
     parameters:
       timezone: "Europe/Oslo"
-  bootstrap:
-    recovery:
-      source: forge-pg-backup
-  externalClusters:
-    - name: forge-pg-backup
-      barmanObjectStore:
-        serverName: "forge-pg"
-        destinationPath: "http://forge-azurite:10000/devstoreaccount1/pg-backups"
-        azureCredentials:
-          connectionString:
-            name: azurite-creds
-            key: AZURE_CONNECTION_STRING
   backup:
     barmanObjectStore:
       destinationPath: "http://forge-azurite:10000/devstoreaccount1/pg-backups"
-      serverName: "forge-pg-restored"
       azureCredentials:
         connectionString:
           name: azurite-creds
