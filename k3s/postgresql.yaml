@@ -19,7 +19,7 @@ spec:
         storageKey:
           name: azurite-creds
           key: AZURE_STORAGE_KEY
-    retentionPolicy: "7d"
+    retentionPolicy: "45d"
 ---
 apiVersion: postgresql.cnpg.io/v1
 kind: ScheduledBackup
