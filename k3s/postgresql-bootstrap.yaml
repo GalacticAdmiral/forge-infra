@@ -1,0 +1,32 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: forge-pg
+spec:
+  instances: 3
+  storage:
+    size: 5Gi
+  postgresql:
+    parameters:
+      timezone: "Europe/Oslo"
+  backup:
+    barmanObjectStore:
+      destinationPath: "http://forge-azurite:10000/devstoreaccount1/pg-backups"
+      azureCredentials:
+        storageAccount:
+          name: azurite-creds
+          key: AZURE_STORAGE_ACCOUNT
+        storageKey:
+          name: azurite-creds
+          key: AZURE_STORAGE_KEY
+    retentionPolicy: "45d"
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: forge-pg-backup
+spec:
+  schedule: "0 0 2 * * *"
+  backupOwnerReference: self
+  cluster:
+    name: forge-pg
