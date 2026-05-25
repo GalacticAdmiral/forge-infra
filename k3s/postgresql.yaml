@@ -1,0 +1,42 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: forge-pg
+spec:
+  instances: 3
+  storage:
+    size: 5Gi
+  postgresql:
+    parameters:
+      timezone: "Europe/Oslo"
+  bootstrap:
+    recovery:
+      source: forge-pg-backup
+  externalClusters:
+    - name: forge-pg-backup
+      barmanObjectStore:
+        serverName: "forge-pg"
+        destinationPath: "http://forge-azurite:10000/devstoreaccount1/pg-backups"
+        azureCredentials:
+          connectionString:
+            name: azurite-creds
+            key: AZURE_CONNECTION_STRING
+  backup:
+    barmanObjectStore:
+      destinationPath: "http://forge-azurite:10000/devstoreaccount1/pg-backups"
+      serverName: "forge-pg-restored"
+      azureCredentials:
+        connectionString:
+          name: azurite-creds
+          key: AZURE_CONNECTION_STRING
+    retentionPolicy: "45d"
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: forge-pg-backup
+spec:
+  schedule: "0 0 2 * * *"
+  backupOwnerReference: self
+  cluster:
+    name: forge-pg

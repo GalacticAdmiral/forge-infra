@@ -13,12 +13,9 @@ spec:
     barmanObjectStore:
       destinationPath: "http://forge-azurite:10000/devstoreaccount1/pg-backups"
       azureCredentials:
-        storageAccount:
+        connectionString:
           name: azurite-creds
-          key: AZURE_STORAGE_ACCOUNT
-        storageKey:
-          name: azurite-creds
-          key: AZURE_STORAGE_KEY
+          key: AZURE_CONNECTION_STRING
     retentionPolicy: "45d"
 ---
 apiVersion: postgresql.cnpg.io/v1
