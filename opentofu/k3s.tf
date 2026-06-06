@@ -7,8 +7,7 @@ resource "terraform_data" "k3d_cluster" {
         --network ${var.environment}-k3s \
         --servers ${var.k3s_servers} \
         --agents ${var.k3s_agents} \
-        --no-lb \
-        --k3s-arg "--disable=traefik@server:*"
+        --no-lb
     EOT
   }
 
