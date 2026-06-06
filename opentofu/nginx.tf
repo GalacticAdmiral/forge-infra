@@ -4,11 +4,11 @@ resource "docker_image" "nginx" {
 }
 
 resource "docker_network" "k3s" {
-  name = "forge-k3s"
+  name = "${var.environment}-k3s"
 }
 
 resource "docker_container" "nginx" {
-  name  = "forge-nginx"
+  name  = "${var.environment}-nginx"
   image = docker_image.nginx.image_id
   depends_on = [terraform_data.k3d_cluster]
 
@@ -34,7 +34,11 @@ resource "docker_container" "nginx" {
     file    = "/etc/nginx/ssl/nginx.key"
   }
   upload {
-    content = file("${path.module}/templates/nginx.conf")
-    file    = "/etc/nginx/nginx.conf"
+    content = templatefile("${path.module}/templates/nginx.conf.tftpl", {
+      environment = var.environment
+      domain      = var.domain
+      agents      = var.k3s_agents
+    })
+    file = "/etc/nginx/nginx.conf"
   }
 }
