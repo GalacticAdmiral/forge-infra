@@ -6,6 +6,14 @@
 
 IaC homelab mirroring a production k3s stack.
 
+> [!NOTE]
+> In my own repo i like to keep common commands in the start of the file, also for the devlopers when they need for some reason to run it.
+| Common Commands | |
+| --- | --- |
+| plan | `tofu plan -var-file=envs/<env>.tfvars` |
+| apply | `tofu apply -var-file=envs/<env>.tfvars` |
+| destroy | `tofu destroy -var-file=envs/<env>.tfvars` |
+
 ## Architecture
 
 ### OpenTofu

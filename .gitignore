@@ -11,8 +11,8 @@ ansible/keys/ansible/*
 opentofu/.terraform/
 opentofu/*.tfstate
 opentofu/*.tfstate.*
-opentofu/.terraform.lock.hcl
 opentofu/certs/
+opentofu/backend.conf
 
 # Secrets
 k3s/*-secret.yaml
