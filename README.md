@@ -2,12 +2,13 @@
 > [!NOTE]
 > Hi there! This project mirrors the production stack i manage at work.
 > I have rebuilt it as a local lab environment for development and learning.
-> No proprietary components are included as for example custom tomcat image with .war.
+> No proprietary components are included as for example custom tomcat image with .war.  
 
 IaC homelab mirroring a production k3s stack.
 
 > [!NOTE]
-> In my own repo i like to keep common commands in the start of the file, also for the devlopers when they need for some reason to run it.
+> In my own repo i like to keep common commands in the start of the file, also for the devlopers when they need for some reason to run it.  
+
 | Common Commands | |
 | --- | --- |
 | plan | `tofu plan -var-file=envs/<env>.tfvars` |
