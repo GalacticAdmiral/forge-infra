@@ -4,9 +4,13 @@ resource "docker_image" "azurite" {
 }
 
 resource "docker_container" "azurite" {
-  name  = "forge-azurite"
+  name  = "${var.environment}-azurite"
   image = docker_image.azurite.image_id
 
+  lifecycle {
+    prevent_destroy = true
+  }
+  
   networks_advanced {
     name = docker_network.k3s.name
   }

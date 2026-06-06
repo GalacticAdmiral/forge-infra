@@ -29,11 +29,11 @@ resource "tls_cert_request" "nginx" {
   private_key_pem = tls_private_key.nginx.private_key_pem
 
   subject {
-    common_name  = "forge.mechanicus.local"
+    common_name  = var.domain
     organization = "Adeptus Mechanicus"
   }
 
-  dns_names    = ["forge.mechanicus.local", "localhost"]
+  dns_names    = [var.domain, "localhost"]
   ip_addresses = ["127.0.0.1"]
 }
 
